@@ -1,3 +1,5 @@
+import json, os
+
 import config
 from db import add_or_update_file_data
 
@@ -6,21 +8,33 @@ config.setup()
 
 # Functions
 def read_data_file():
-    print("TODO")
-    data = None
+    data_path = os.getenv("DATA_FILE_PATH")
+    try:
+        f = open(data_path)
+        data = json.load(f)
 
-    if not data:
-        print(f"Could not find file")
+        if not data:
+            print(f"File({data_path}) empty.")
+            exit()
+        
+        return data["cachedCounts"]
+    except:
+        print(f"Failed to load file: {data_path}")
         exit()
 
 # Main process
 def start():
     print("Starting Obsidian Data Extractor...")
-    items = read_data_file()
+    data = read_data_file()
 
-    for item in items:
-        file_data = {}
-        # Extract the data
+    for key, value in data.items():
+        parts = key.split("/")
+
+        file_data = {
+            "Location": '/'.join(parts[:-1]),
+            "Name": parts[-1],
+            "WordCount": value["wordCount"]
+        }
 
         add_or_update_file_data(file_data)
 
