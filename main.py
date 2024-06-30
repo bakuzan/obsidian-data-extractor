@@ -28,8 +28,11 @@ def start():
     data = read_data_file()
 
     for key, value in data.items():
-        parts = key.split("/")
+        if "Attachments" in key:
+            print("Skipping attachment...")
+            continue
 
+        parts = key.split("/")
         file_data = {
             "Location": '/'.join(parts[:-1]),
             "Name": parts[-1],
