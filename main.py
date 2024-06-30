@@ -28,8 +28,8 @@ def start():
     data = read_data_file()
 
     for key, value in data.items():
+        # Just skip the attachments folder
         if "Attachments" in key:
-            print("Skipping attachment...")
             continue
 
         parts = key.split("/")

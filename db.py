@@ -76,9 +76,8 @@ def add_or_update_file_data(file):
             update["FileId"] = existing_record["Id"]
             update["WordCount"] = file["WordCount"]
             file_id = update_file(conn, update)
-            if file_id == 0:
-                print(f"File unchanged...")
-            else:
+            # file_id: 0, means no changes made.
+            if file_id != 0:
                 print(f"File({file_id}) already exists in database, updating...")
         else:
             # Create file entry as it doesn't exist
