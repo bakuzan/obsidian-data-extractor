@@ -37,8 +37,8 @@ def create_file(conn, file):
     :return: file id
     """
     sql = '''
-        INSERT INTO Files(Location, Name, WordCount) 
-        VALUES(:Location, :Name, :WordCount)
+        INSERT INTO Files(Location, Name, WordCount, CreatedDate, ModifiedDate) 
+        VALUES(:Location, :Name, :WordCount, :CreatedDate, :ModifiedDate)
     '''
     cur = conn.cursor()
     cur.execute(sql, file)
@@ -55,6 +55,8 @@ def update_file(conn, update):
     sql = '''
         UPDATE Files
            SET WordCount = :WordCount
+             , CreatedDate = :CreatedDate
+             , ModifiedDate = :ModifiedDate
          WHERE Id = :FileId
     '''
     cur = conn.cursor()
@@ -75,6 +77,8 @@ def add_or_update_file_data(file):
             update = {}
             update["FileId"] = existing_record["Id"]
             update["WordCount"] = file["WordCount"]
+            update["CreatedDate"] = file["CreatedDate"]
+            update["ModifiedDate"] = file["ModifiedDate"]
             file_id = update_file(conn, update)
             # file_id: 0, means no changes made.
             if file_id != 0:

@@ -36,7 +36,9 @@ def start():
         file_data = {
             "Location": '/'.join(parts[:-1]),
             "Name": parts[-1],
-            "WordCount": value["wordCount"]
+            "WordCount": value["wordCount"],
+            "CreatedDate": value["createdDate"],
+            "ModifiedDate": value["modifiedDate"],
         }
 
         add_or_update_file_data(file_data)
